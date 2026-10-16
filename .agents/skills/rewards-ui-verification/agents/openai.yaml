@@ -1,0 +1,7 @@
+{
+  "interface": {
+    "display_name": "rewardsIQ UI Verification",
+    "short_description": "Check readability, mobile layout, and CRUD flows",
+    "default_prompt": "Use $rewards-ui-verification to improve and verify the relevant parts of this rewardsIQ project."
+  }
+}

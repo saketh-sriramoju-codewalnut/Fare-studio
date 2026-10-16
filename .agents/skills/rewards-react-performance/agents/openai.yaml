@@ -1,0 +1,7 @@
+{
+  "interface": {
+    "display_name": "rewardsIQ React Performance",
+    "short_description": "Measure loading cost and prevent bundle regressions",
+    "default_prompt": "Use $rewards-react-performance to improve and verify the relevant parts of this rewardsIQ project."
+  }
+}
