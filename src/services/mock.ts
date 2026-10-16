@@ -49,7 +49,12 @@ function isUser(value: unknown): value is User {
   )
 }
 function readUsers(): User[] {
-  const stored = localStorage.getItem(USERS_KEY)
+  let stored: string | null
+  try {
+    stored = localStorage.getItem(USERS_KEY)
+  } catch {
+    throw new Error('Browser storage is unavailable. Enable it and try again.')
+  }
   if (!stored) return structuredClone(seed)
   try {
     const parsed: unknown = JSON.parse(stored)
@@ -126,10 +131,10 @@ export const mockUserService: UserService = {
     saveUsers(users.filter((user) => user.id !== id))
   },
 }
-function readSession(storage: Storage): Session | null {
+function readSession(resolveStorage: () => Storage): Session | null {
   try {
     const value = JSON.parse(
-      storage.getItem(SESSION_KEY) ?? 'null',
+      resolveStorage().getItem(SESSION_KEY) ?? 'null',
     ) as Session | null
     return value &&
       typeof value.name === 'string' &&
@@ -165,10 +170,20 @@ export const mockAuthService: AuthService = {
     return session
   },
   getSession() {
-    return readSession(sessionStorage) ?? readSession(localStorage)
+    return readSession(() => sessionStorage) ?? readSession(() => localStorage)
   },
   async logout() {
-    localStorage.removeItem(SESSION_KEY)
-    sessionStorage.removeItem(SESSION_KEY)
+    let failed = false
+    for (const resolveStorage of [() => localStorage, () => sessionStorage]) {
+      try {
+        resolveStorage().removeItem(SESSION_KEY)
+      } catch {
+        failed = true
+      }
+    }
+    if (failed)
+      throw new Error(
+        'Saved sign-in state could not be cleared. Enable browser storage and try signing out again.',
+      )
   },
 }
