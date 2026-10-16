@@ -1,0 +1,51 @@
+.app-recovery {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: var(--text-strong);
+  background: #f7f8fa;
+}
+.app-recovery-panel {
+  width: 100%;
+  max-width: 560px;
+  padding: clamp(24px, 5vw, 40px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-panel);
+  background: #fff;
+}
+.app-recovery h1 {
+  margin-top: 32px;
+  font-size: var(--text-xl);
+  line-height: 1.4;
+  letter-spacing: -0.5px;
+}
+.app-recovery h1:focus-visible {
+  outline: 3px solid #bba5f3;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.app-recovery p {
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-size: var(--text-base);
+  line-height: 1.7;
+}
+.app-recovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+.app-recovery .app-recovery-note {
+  font-size: var(--text-sm);
+}
+@media (max-width: 420px) {
+  .app-recovery {
+    padding: 16px;
+  }
+  .app-recovery-actions .button {
+    width: 100%;
+  }
+}
