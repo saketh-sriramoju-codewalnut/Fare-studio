@@ -1,0 +1,7 @@
+{
+  "interface": {
+    "display_name": "rewardsIQ UI System",
+    "short_description": "Keep typography, spacing, and controls consistent",
+    "default_prompt": "Use $rewards-ui-system to improve and verify the relevant parts of this rewardsIQ project."
+  }
+}
