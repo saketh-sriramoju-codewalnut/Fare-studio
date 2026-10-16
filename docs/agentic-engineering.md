@@ -4,17 +4,43 @@ The user asked for five important skills, their concrete application, and one PR
 
 ## Five independent deliveries
 
-| Skill                          | What changes                                             | How it works                                                                              | Why it matters                                                                     |
-| ------------------------------ | -------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `rewards-spec-first`           | Planned sibling PR: whitelist writable profile fields    | Write acceptance examples, then constrain create/update and form initialization           | Runtime extras cannot replace identity or join date                                |
-| `rewards-context-engineering`  | This PR: durable maps/ADR and saved-directory validation | Read a focused source packet; reject invalid records and duplicate identities before CRUD | Future agents find accurate boundaries; persisted data obeys the documented domain |
-| `rewards-multi-agent-delivery` | Planned sibling PR: route error recovery                 | Own disjoint paths, integrate centrally, test a deliberate render failure                 | Parallel work stays reviewable and people can recover from rendering failures      |
-| `rewards-behavioral-testing`   | Planned sibling PR: storage failure handling             | Inject denied getters/writes/logout and verify observable outcomes                        | Browser storage failures should not crash bootstrap or report success              |
-| `rewards-evidence-led-prs`     | Planned sibling PR: repeatable checks and CI evidence    | Fail-fast runner, explicit browser setup, review template                                 | A reviewer can reproduce claims and distinguish local checks from CI               |
+| Skill                          | What changes                                                                                                       | How it works                                                                                           | Why it matters                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `rewards-spec-first`           | [PR 1](https://github.com/saketh-sriramoju-codewalnut/Fare-studio/pull/1): whitelist writable profile fields       | Write acceptance examples, then constrain create/update and form initialization                        | Runtime extras cannot replace identity or join date                                 |
+| `rewards-context-engineering`  | [PR 2](https://github.com/saketh-sriramoju-codewalnut/Fare-studio/pull/2): maps/ADR and saved-directory validation | Curate focused source packets; validate records and collection identity before CRUD                    | Future agents find accurate boundaries; saved data follows the documented domain    |
+| `rewards-multi-agent-delivery` | [PR 3](https://github.com/saketh-sriramoju-codewalnut/Fare-studio/pull/3): route error recovery                    | Isolate worktrees and ownership, independently review, then test a deliberately failed screen download | Parallel agents avoid overwrites and people can recover from loading failures       |
+| `rewards-behavioral-testing`   | [PR 4](https://github.com/saketh-sriramoju-codewalnut/Fare-studio/pull/4): storage failure handling                | Inject denied getters/reads/logout and verify actual UI and stored outcomes                            | Browser storage failure must not crash startup or falsely report successful cleanup |
+| `rewards-evidence-led-prs`     | [PR 5](https://github.com/saketh-sriramoju-codewalnut/Fare-studio/pull/5): repeatable checks and CI template       | Fail-fast runner, machine-readable evidence, explicit browser setup and PR template                    | Reviewers can reproduce claims and see what actually ran                            |
 
 The five skills are proposed in separate PRs; a feature branch may contain only the starter and its own improvement. The coordinator's combined local review branch contains all five. Implementation lanes began at the same captured starter baseline, with separate worktrees and owned files. The coordinator reviews results, resolves shared-file edits, and runs integrated checks. Agents do not publish or merge changes themselves.
 
 The supplied Fare-studio repository was empty. To honor the user's instruction to keep main untouched, `codex/review-base` contains only an empty starting commit. PR 1 introduces the existing app plus its spec-first improvement; the other four PRs build on and target PR 1's branch. Review PR 1 first. After accepting it, retarget the remaining proposals to the accepted base for independent review. No PR is automatically merged. CI execution and PR URLs are evidence only after the remote service confirms them.
+
+## How this delivery was done
+
+The coordinator read the entire booklet and audited the actual source before selecting the five skills. A shared planning packet defined the goal, current contracts, owned files, examples, failure states, non-goals, and acceptance checks. Each implementation wrote a scoped spec before code. Implementation agents received relevant source paths and a small context packet rather than the full booklet or conversation.
+
+Three agent roles contributed implementation, repository audit, and independent review in separate Git worktrees. The coordinator implemented storage resilience, reviewed actual diffs, and combined the results on `codex/agentic-improvements`. An independent reviewer caught that a padded saved email and the write duplicate check disagreed; a failing test proved the inconsistency before the fix. The coordinator also proved that empty saved bytes were being silently treated as missing data and corrected that case. Shared-file integration preserved both the storage-access guard and the missing-versus-corrupt distinction.
+
+```mermaid
+flowchart LR
+  A[Human request] --> B[Spec and acceptance examples]
+  B --> C[Focused context packets]
+  C --> D[Isolated implementation agents]
+  D --> E[Independent review]
+  E --> F[Integrated tests and evidence]
+  F --> G[Five review PRs]
+```
+
+The skills are executable guidance for future tasks, not automatic background workers. The spec limits guessing; context maps reduce repeated discovery; independent review checks the implementer's assumptions; tests prove observable behavior; PR evidence leaves the final acceptance decision with the human.
+
+## Observed verification and limits
+
+On clean local integration commit `e008e5a760ca62ea92214024db6b3a4f83c7be37`, `npm run verify:all` passed formatting, lint, 3 real-child-process quality-runner tests, 51 application tests, TypeScript/production build, all bundle budgets, and 3 real-browser tests. Browser coverage includes login/CRUD persistence, readable responsive UI and axe checks, and an intentionally blocked lazy import followed by successful native reload. The coordinator inspected desktop/mobile recovery screenshots. All five new skill files passed the skill validator with UTF-8 enabled.
+
+Evidence is in ignored `artifacts/verification.json` and browser reports/screenshots. The report identifies the tested commit, a clean working tree, exact commands and exit codes; generated logs and the supplied PDF are not committed. Later documentation/configuration packaging does not change the verified runtime code. These local results are not GitHub CI results.
+
+GitHub refused publishing an active workflow because the existing OAuth login lacks `workflow` permission. PR 5 therefore includes the complete configuration as inactive `docs/ci/quality.workflow.yml`; its local verification runner is working. Permission approval is needed before moving it to `.github/workflows/quality.yml` in that same PR. No remote CI pass is claimed. All five PRs are open review proposals, with no main push or merge.
 
 ## Whole-booklet coverage
 
