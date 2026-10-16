@@ -12,7 +12,9 @@ The user asked for five important skills, their concrete application, and one PR
 | `rewards-behavioral-testing`   | Planned sibling PR: storage failure handling             | Inject denied getters/writes/logout and verify observable outcomes                        | Browser storage failures should not crash bootstrap or report success              |
 | `rewards-evidence-led-prs`     | Planned sibling PR: repeatable checks and CI evidence    | Fail-fast runner, explicit browser setup, review template                                 | A reviewer can reproduce claims and distinguish local checks from CI               |
 
-The sibling skills/files are planned on this independent branch until their PRs are integrated. Each lane begins at the same captured starter baseline. The coordinator assigns worktrees and owned files, reviews each result, resolves shared-file edits, and runs integrated checks. No agent merges or publishes on another lane's behalf. Five PRs keep each skill and its improvement independently reviewable; CI execution and PR URLs must be reported only after they actually exist.
+The five skills are proposed in separate PRs; a feature branch may contain only the starter and its own improvement. The coordinator's combined local review branch contains all five. Implementation lanes began at the same captured starter baseline, with separate worktrees and owned files. The coordinator reviews results, resolves shared-file edits, and runs integrated checks. Agents do not publish or merge changes themselves.
+
+The supplied Fare-studio repository was empty. To honor the user's instruction to keep main untouched, `codex/review-base` contains only an empty starting commit. PR 1 introduces the existing app plus its spec-first improvement; the other four PRs build on and target PR 1's branch. Review PR 1 first. After accepting it, retarget the remaining proposals to the accepted base for independent review. No PR is automatically merged. CI execution and PR URLs are evidence only after the remote service confirms them.
 
 ## Whole-booklet coverage
 
