@@ -1,6 +1,4 @@
 import {
-  roles,
-  statuses,
   type AuthService,
   type Session,
   type User,
@@ -8,6 +6,7 @@ import {
   type UserService,
 } from '../types'
 import { validateUser } from '../lib/validation'
+import { isPersistedUserCollection } from '../lib/persisted-users'
 export const USERS_KEY = 'rewards-iq.users.v1'
 export const SESSION_KEY = 'rewards-iq.session.v1'
 export const demoCredentials = {
@@ -35,25 +34,12 @@ const seed: User[] = [
   status: status as User['status'],
   createdAt: new Date(Date.UTC(2026, 8, 3 + index)).toISOString(),
 }))
-function isUser(value: unknown): value is User {
-  if (!value || typeof value !== 'object') return false
-  const user = value as User
-  return (
-    typeof user.id === 'string' &&
-    typeof user.name === 'string' &&
-    typeof user.email === 'string' &&
-    roles.includes(user.role) &&
-    statuses.includes(user.status) &&
-    typeof user.createdAt === 'string' &&
-    !Number.isNaN(Date.parse(user.createdAt))
-  )
-}
 function readUsers(): User[] {
   const stored = localStorage.getItem(USERS_KEY)
   if (!stored) return structuredClone(seed)
   try {
     const parsed: unknown = JSON.parse(stored)
-    if (Array.isArray(parsed) && parsed.every(isUser)) return parsed
+    if (isPersistedUserCollection(parsed)) return parsed
   } catch {
     /* Preserve corrupt data and report an actionable error. */
   }
@@ -86,7 +72,8 @@ function normalize(
   if (
     users.some(
       (user) =>
-        user.id !== excludingId && user.email.toLowerCase() === clean.email,
+        user.id !== excludingId &&
+        user.email.trim().toLowerCase() === clean.email,
     )
   )
     throw new Error('A user with this email address already exists.')
