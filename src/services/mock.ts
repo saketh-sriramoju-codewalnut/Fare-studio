@@ -75,10 +75,11 @@ function normalize(
   users: User[],
   excludingId?: string,
 ): UserInput {
-  const clean = {
-    ...input,
+  const clean: UserInput = {
     name: input.name.trim(),
     email: input.email.trim().toLowerCase(),
+    role: input.role,
+    status: input.status,
   }
   const errors = validateUser(clean)
   if (Object.keys(errors).length) throw new Error(Object.values(errors)[0])

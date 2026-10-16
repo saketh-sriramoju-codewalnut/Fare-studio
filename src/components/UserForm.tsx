@@ -14,7 +14,14 @@ export function UserForm({
   onSaved: (user: User) => void
 }) {
   const [values, setValues] = useState<UserInput>(
-    user ?? { name: '', email: '', role: 'Member', status: 'Active' },
+    user
+      ? {
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          status: user.status,
+        }
+      : { name: '', email: '', role: 'Member', status: 'Active' },
   )
   const [errors, setErrors] = useState<
     Partial<Record<keyof UserInput, string>>
