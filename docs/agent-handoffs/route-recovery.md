@@ -28,7 +28,9 @@ Booklet basis: multi-agent workflow pp. 14–15, code review pp. 20–21; projec
 
 ## Independent review and browser verification
 
-Independent reviewer /root/project_audit inspected the actual diff and scoped spec, including privacy, focus behavior, and cached lazy-import retry. The reviewer reported no actionable issues and independently reran all four focused recovery tests successfully. No code fixes were required. Browser reload, network-failure, responsive screenshots, and axe checks remain pending with the parent coordinator before publication.
+Independent reviewer /root/project_audit inspected the actual diff and scoped spec, including privacy, focus behavior, and cached lazy-import retry. The reviewer reported no actionable issues and independently reran all four focused recovery tests successfully. No code fixes were required.
+
+The coordinator added `e2e/recovery.spec.ts` and verified it against the combined project on clean commit e008e5a760ca62ea92214024db6b3a4f83c7be37. The browser deliberately blocked the UsersPage module, confirmed the focused public recovery screen and axe checks, checked mobile overflow, removed the block, and used the real Reload page button to return to the working directory. The coordinator inspected both recovery screenshots. All 3 integrated browser tests and 51 application tests passed, alongside 3 quality-runner tests and format/lint/build/bundle checks. This is local browser evidence, not a GitHub CI run.
 
 Suggested browser failure check: serve this lane's production build on a free dedicated port; intercept and abort the lazy UsersPage chunk after demo login. Confirm recovery heading focus, no private details, 16px body/actions, visible focus, and no page overflow at desktop, 390px and 320px. Retry should remain safely recoverable because React cached the rejection; remove the abort and click Reload page to confirm a fresh document can load the directory again. A browser check is needed to prove actual window.location.reload behavior; the unit test injects a reload callback because JSDOM cannot navigate documents.
 
