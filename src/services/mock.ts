@@ -36,7 +36,7 @@ const seed: User[] = [
 }))
 function readUsers(): User[] {
   const stored = localStorage.getItem(USERS_KEY)
-  if (!stored) return structuredClone(seed)
+  if (stored === null) return structuredClone(seed)
   try {
     const parsed: unknown = JSON.parse(stored)
     if (isPersistedUserCollection(parsed)) return parsed

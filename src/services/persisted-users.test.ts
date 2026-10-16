@@ -20,6 +20,13 @@ const input: UserInput = {
 beforeEach(() => localStorage.clear())
 
 describe('persisted directory integrity', () => {
+  it('treats empty saved bytes as corruption rather than an absent directory', async () => {
+    localStorage.setItem(USERS_KEY, '')
+    await expect(users.list()).rejects.toThrow(
+      'Saved user data could not be read',
+    )
+    expect(localStorage.getItem(USERS_KEY)).toBe('')
+  })
   it.each([
     ['blank ID', { id: '  ' }],
     ['missing ID', { id: null }],

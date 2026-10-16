@@ -28,6 +28,8 @@ Malformed JSON and invalid collections preserve the original saved bytes and rep
 
 Rollback is a revert of this scoped change. No data conversion is required because the reader never rewrites stored data. Previously tolerated noncanonical timestamps will surface a saved-data error; deliberate repair or clearing the demo key is a user decision.
 
+Coordinator review also found that an empty saved string was being treated as a missing key. A focused regression failed against that behavior; the reader now seeds only for `null`, preserving empty invalid bytes and reporting corruption. This follows the same absence-versus-corruption contract without changing the storage format.
+
 ## Recorded regression evidence
 
 The initial 23-case suite failed 13 cases against the baseline and passed after introducing record/collection validation. Independent integration review identified an additional reader/writer consistency case: a valid padded saved email followed by a create using its normalized identity incorrectly succeeded. The focused additional test failed before the one-line write-time trim correction. The resulting 24 new tests plus eight existing adapter tests pass; no data repair or migration is performed.
