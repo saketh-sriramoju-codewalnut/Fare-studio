@@ -86,11 +86,17 @@ npm test             # Adapter tests and component workflow
 npm run test:e2e     # Full browser workflow using installed Microsoft Edge
 npm run format:check
 npm run check:bundle # Production build and bundle/font budgets
+npm run verify       # Sequential local checks with a machine-readable report
+npm run verify:all   # Same checks plus browser workflows and accessibility
 ```
+
+Verification stops on the first failure and records command exits, the current Git commit, and whether the checkout has uncommitted changes in ignored `artifacts/verification.json`. Later checks remain `not-run`. A Git commit is required to identify the revision. The runner's own fixture tests are available as `npm run test:quality`.
+
+GitHub Actions runs `verify:all` on pull requests and pushes to `codex/**`, installs Chromium explicitly, and uploads verification/browser evidence even on failure. The workflow configuration does not establish that a remote run passed; check the actual run. The PR template requests the scoped spec, observed evidence, risks, and rollback.
 
 `npm run test:watch` runs tests during development. `npm run format` formats source files. `npm run preview` serves the production build.
 
-The browser test uses Microsoft Edge via `playwright.config.ts`. On a machine without Edge, remove `channel: 'msedge'` and run `npx playwright install chromium` before running it. Browser test screenshots are saved in `artifacts/`; screenshots, build output, and test reports are gitignored.
+The browser test uses Microsoft Edge locally and installed Chromium when `CI` is set, via `playwright.config.ts`. To use Chromium on a machine without Edge, install it with `npx playwright install chromium` and set `CI=true` before running the browser checks. Browser screenshots are saved in `artifacts/`; failed-test screenshots/traces are in `test-results/`, and the HTML report is in `playwright-report/`. These directories and build output are gitignored.
 
 For production hosting, configure the host to fall back to `index.html` for client routes such as `/login` and `/users`.
 
