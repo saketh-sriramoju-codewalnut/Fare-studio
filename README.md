@@ -92,7 +92,7 @@ npm run verify:all   # Same checks plus browser workflows and accessibility
 
 Verification stops on the first failure and records command exits, the current Git commit, and whether the checkout has uncommitted changes in ignored `artifacts/verification.json`. Later checks remain `not-run`. A Git commit is required to identify the revision. The runner's own fixture tests are available as `npm run test:quality`.
 
-GitHub Actions runs `verify:all` on pull requests and pushes to `codex/**`, installs Chromium explicitly, and uploads verification/browser evidence even on failure. The workflow configuration does not establish that a remote run passed; check the actual run. The PR template requests the scoped spec, observed evidence, risks, and rollback.
+The complete GitHub Actions template is in `docs/ci/quality.workflow.yml`. It runs `verify:all`, installs Chromium explicitly, and retains verification/browser evidence even on failure. GitHub rejected publishing an active workflow because the authenticated CLI lacks `workflow` permission, so the template is intentionally inactive. After that permission is granted, move it to `.github/workflows/quality.yml` in this same review branch. No remote CI run has been claimed. The local verification runner works independently; the PR template requests the spec, evidence, risks, and rollback.
 
 `npm run test:watch` runs tests during development. `npm run format` formats source files. `npm run preview` serves the production build.
 

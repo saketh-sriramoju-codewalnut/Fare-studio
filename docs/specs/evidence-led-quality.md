@@ -16,7 +16,9 @@ The CLI accepts only `--all` to include browser checks. Tests may supply harmles
 
 ## CI and publication
 
-The GitHub workflow runs on pull requests and pushes to `codex/**`, with read-only contents permission, Node 24, `npm ci`, explicit Chromium installation, and `npm run verify:all`. `CI` selects Chromium without the local Microsoft Edge channel. Traces, screenshots, HTML report, test results, and the verification JSON are uploaded even when checks fail. Local browser checks retain Edge. CI runtime has a bounded job timeout.
+The complete GitHub workflow template in `docs/ci/quality.workflow.yml` is configured for pull requests and pushes to `codex/**`, with read-only contents permission, Node 24, `npm ci`, explicit Chromium installation, and `npm run verify:all`. `CI` selects Chromium without the local Microsoft Edge channel. Traces, screenshots, HTML report, test results, and verification JSON are retained even when checks fail. Local browser checks retain Edge. CI runtime has a bounded job timeout.
+
+Publication limitation: GitHub rejected the active workflow because the existing CLI authorization lacks the `workflow` scope. The user was given the authorization flow. Pending that approval, the complete configuration ships as an inactive template so the fifth skill, runner, tests, and PR remain reviewable. Once approved, move the file to `.github/workflows/quality.yml` in this same PR branch. Local verification is active now; GitHub CI execution is not claimed. This changes the publication plan rather than weakening or skipping any local gate.
 
 The PR template captures problem/behavior, why, spec, exact evidence, risks, and rollback. A workflow configuration or local check is never reported as an executed remote CI run.
 
